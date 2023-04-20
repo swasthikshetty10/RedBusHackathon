@@ -4,11 +4,23 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { api } from "@/utils/api";
+import Pusher from "pusher-js";
 import { useEffect } from "react";
 const Video = dynamic(() => import("@/components/Video"), { ssr: false });
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  useEffect(() => {
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY as string, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER as string,
+    });
+    const channel = pusher.subscribe("object-detection");
+    channel.bind("object-detection", (data: any) => {
+      console.log(data);
+    });
 
+    return () => {
+      pusher.unsubscribe("object-detection");
+    };
+  }, []);
   return (
     <>
       <Head>
