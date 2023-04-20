@@ -6,6 +6,7 @@ import Webcam from "react-webcam";
 import { drawRect } from "../utils/utilities";
 
 function App() {
+  const [tab, setTab] = useState("detect");
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -53,38 +54,62 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <Webcam
-          ref={webcamRef}
-          muted={true}
-          style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zindex: 9,
-            width: 640,
-            height: 480,
-          }}
-        />
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <div className="absolute top-[5rem] flex justify-center gap-[2rem]">
+        <button
+          className="rounded-md bg-white p-5 text-black hover:brightness-75"
+          onClick={() => setTab("detect")}
+        >
+          Detect
+        </button>
+        <button
+          className="rounded-md bg-white p-5 text-black hover:brightness-75"
+          onClick={() => setTab("results")}
+        >
+          Results
+        </button>
+      </div>
+      <header>
+        {tab === "detect" ? (
+          <>
+            <Webcam
+              ref={webcamRef}
+              muted={true}
+              style={{
+                position: "absolute",
+                marginLeft: "auto",
+                marginRight: "auto",
+                left: 0,
+                right: 0,
+                top: "15rem",
+                textAlign: "center",
+                zindex: 9,
+                width: 640,
+                height: 480,
+              }}
+            />
 
-        <canvas
-          ref={canvasRef}
-          style={{
-            position: "absolute",
-            marginLeft: "auto",
-            marginRight: "auto",
-            left: 0,
-            right: 0,
-            textAlign: "center",
-            zindex: 8,
-            width: 640,
-            height: 480,
-          }}
-        />
+            <canvas
+              ref={canvasRef}
+              style={{
+                position: "absolute",
+                marginLeft: "auto",
+                marginRight: "auto",
+                left: 0,
+                right: 0,
+                top: "15rem",
+                textAlign: "center",
+                zindex: 8,
+                width: 640,
+                height: 480,
+              }}
+            />
+          </>
+        ) : (
+          <div className="mt-20 h-[500px] w-[500px] rounded-md bg-white shadow-md">
+            results
+          </div>
+        )}
       </header>
     </div>
   );
