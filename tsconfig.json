@@ -28,7 +28,7 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    "src/pages/detect.tsx"
+    "src/pages/detect.jsx"
   ],
   "exclude": ["node_modules"]
 }
